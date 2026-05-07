@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lung Sound Classifier</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 1.5rem; max-width: 900px; }
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 1.5rem; box-shadow: 0 0 12px rgba(0,0,0,0.05); margin-bottom: 1.5rem; }
+    label { display: block; margin-bottom: 0.75rem; }
+    input[type="text"], input[type="file"] { width: 100%; padding: 0.75rem; margin-top: 0.25rem; }
+    button { background: #2f80ed; border: none; color: #fff; padding: 0.85rem 1.4rem; cursor: pointer; border-radius: 6px; }
+    button:hover { background: #1c66d0; }
+    .result img { max-width: 100%; height: auto; border-radius: 8px; margin-top: 0.75rem; }
+    .result ul { list-style: none; padding-left: 0; }
+    .result li { margin-bottom: 0.75rem; }
+  </style>
+</head>
+<body>
+  <h1>Lung Sound Classifier</h1>
+  <div class="card">
+    <form method="post" enctype="multipart/form-data">
+      <label>
+        Patient name:
+        <input type="text" name="name" required />
+      </label>
+      <label>
+        Upload lung sound file:
+        <input type="file" name="lungSounds" accept=".wav,.mp3,.flac" required />
+      </label>
+      <button type="submit">Classify</button>
+    </form>
+  </div>
+
+  {% if ospf == 0 %}
+  <div class="card result">
+    <h2>Results for {{ n }}</h2>
+    {% if lungSounds %}
+      <p><strong>Uploaded audio:</strong></p>
+      <audio controls src="{{ lungSounds }}"></audio>
+    {% endif %}
+
+    <h3>Output</h3>
+    <ul>
+      {% for item in res %}
+        <li>
+          {% if item.endswith('.png') %}
+            <img src="{{ item }}" alt="Result image" />
+          {% else %}
+            {{ item }}
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</body>
+</html>
